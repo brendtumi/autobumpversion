@@ -30,14 +30,17 @@ else
 fi
 
 echo -e "\e[33mVersion number will be $version\e[0m"
-read -p "Do you want to continue? [Yy]" -n 1 -r
-echo    # (optional) move to a new line
-if [[ $REPLY =~ ^[Yy]$ ]];
-	then
+read -p "Do you want to continue? [Y/n]" -n 1 key
+echo
+if [[ $key = "" || $key = "y" ]]; then 
 	echo  -e "\e[33mCheckout new branch from master : hotfix-$version\e[0m"
 	git checkout -b hotfix-$version master
 	./scripts/bump.sh "readme.md" $version
 	git commit -a -m "Hotfix $version : $name"
+	if [ ! -d "./scripts/.history/" ]; then
+		mkdir ./scripts/.history/
+		chmod 775 ./scripts/.history/
+	fi
 	echo $version > ./scripts/.history/hotfix.last
 else
 	echo  -e "\e[33mAbort\e[0m"

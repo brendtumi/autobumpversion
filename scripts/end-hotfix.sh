@@ -28,10 +28,9 @@ else
 fi
 
 echo -e "\e[33mhotfix-$version will be merged with master and develop\e[0m"
-read -p "Do you want to continue? [Yy] " -n 1 -r
-echo    # (optional) move to a new line
-if [[ $REPLY =~ ^[Yy]$ ]];
-	then
+read -p "Do you want to continue? [Y/n]" -n 1 key
+echo 
+if [[ $key = "" || $key = "y" ]]; then 
 	echo -e "\e[33mCheckout master\e[0m"
 	git checkout master
 	echo -e "\e[33mMerge branch 'hotfix-$version' into master\e[0m"
@@ -49,12 +48,12 @@ if [[ $REPLY =~ ^[Yy]$ ]];
 	#else if  git config push.default simple
 	git push --set-upstream origin develop
 
-	read -p "Do you want to delete hotfix-$version? [Yy]" -n 1 -r
-	echo    # (optional) move to a new line
-	if [[ $REPLY =~ ^[Yy]$ ]];
-	then
-		#git push origin --delete hotfix-$version
+	read -p "Do you want to delete hotfix-$version? [Yy]" -n 1 key
+	echo 
+	if [[ $key = "" || $key = "y" ]]; then 
+		git push origin --delete hotfix-$version
 		git branch -d hotfix-$version
+		rm ./scripts/.history/hotfix.last
 	fi
 
 else

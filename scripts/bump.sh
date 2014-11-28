@@ -20,7 +20,7 @@ if [ $# = 2 ]; then
 
 	# find version number assignment ("=|: v1.5.5" for example)
 	# and replace it with newly specified version number
-	sed -i.backup -E "s/[\=\:]\s?v[0-9.]+/\: $version/" $file $file
+	sed -i.backup -E "s/[\=\:]\s?v?[0-9.]+/\: $version/" $file $file
 
 	# remove backup file created by sed command
 	rm $file.backup
